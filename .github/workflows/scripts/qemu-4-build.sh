@@ -47,6 +47,7 @@ function freebsd() {
 }
 
 function linux() {
+  EXTRA_CONFIG="${1:-}"
   echo "##[group]Autogen.sh"
   run ./autogen.sh
   echo "##[endgroup]"
@@ -56,7 +57,7 @@ function linux() {
     --prefix=/usr \
     --enable-pyzfs \
     --enable-debug \
-    --enable-debuginfo
+    --enable-debuginfo $EXTRA_CONFIG
   echo "##[endgroup]"
 
   echo "##[group]Build"
@@ -138,6 +139,9 @@ case "$1" in
     ;;
   debian*|ubuntu*)
     deb_build_and_install
+    ;;
+  arch*)
+    linux "--sysconfdir=/etc --enable-linux-experimental"
     ;;
   *)
     linux
