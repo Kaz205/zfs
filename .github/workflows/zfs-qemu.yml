@@ -15,6 +15,11 @@ on:
         required: false
         default: false
         description: 'Test on CentOS 10 stream'
+      include_arch:
+        type: boolean
+        required: false
+        default: false
+        description: 'Test on Arch Linux'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -34,7 +39,7 @@ jobs:
       - name: Generate OS config and CI type
         id: os
         run: |
-          FULL_OS='["almalinux8", "almalinux9", "archlinux", "debian11", "debian12", "fedora40", "fedora41", "freebsd13-4r", "freebsd14-0r", "freebsd14-1s", "ubuntu20", "ubuntu22", "ubuntu24"]'
+          FULL_OS='["almalinux8", "almalinux9", "debian11", "debian12", "fedora40", "fedora41", "freebsd13-4r", "freebsd14-0r", "freebsd14-1s", "ubuntu20", "ubuntu22", "ubuntu24"]'
           QUICK_OS='["almalinux8", "almalinux9", "debian12", "fedora41", "freebsd13-3r", "freebsd14-1r", "ubuntu24"]'
           # determine CI type when running on PR
           ci_type="full"
@@ -56,6 +61,9 @@ jobs:
           fi
           if [ "${{ github.event.inputs.include_stream10 }}" == 'true' ]; then
             os_json=$(echo $os_json | jq -c '. += ["centos-stream10"]')
+          fi
+          if [ "${{ github.event.inputs.include_arch}}" == 'true' ]; then
+            os_json=$(echo $os_json | jq -c '. += ["archlinux"]')
           fi
           
           echo $os_json
