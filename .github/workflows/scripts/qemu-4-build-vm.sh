@@ -413,6 +413,9 @@ case "$OS" in
   debian*|ubuntu*)
     deb_build_and_install "$extra"
     ;;
+  arch*)
+    extra+=" --sysconfdir=/etc --enable-linux-experimental"
+    ;&
   *)
     linux "$extra"
     ;;
