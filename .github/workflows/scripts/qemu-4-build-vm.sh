@@ -360,7 +360,9 @@ fi
 # almalinux9.5
 # fedora44
 source /etc/os-release
- if which hostnamectl &> /dev/null ; then
+if [ "$ID" = "arch" ]; then
+	sudo hostname "$ID"
+elif which hostnamectl &> /dev/null ; then
   # Fedora 42+ use hostnamectl
   sudo hostnamectl set-hostname "$ID$VERSION_ID"
   sudo hostnamectl set-hostname --pretty "$ID$VERSION_ID"
