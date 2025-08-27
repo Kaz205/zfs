@@ -13,7 +13,11 @@ set -e
 
 source /etc/os-release
 OS="$ID"
-VERSION="$VERSION_ID"
+if [ "$ID" = "arch" ]; then
+	VERSION=""
+else
+	VERSION="$VERSION_ID"
+fi
 
 ALTHOST=""
 if [ -n "$1" ] ; then
