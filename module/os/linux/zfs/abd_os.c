@@ -261,6 +261,14 @@ abd_unmark_zfs_page(struct page *page)
 #define	__GFP_RECLAIM		__GFP_WAIT
 #endif
 
+#ifndef nth_page
+/*
+ * Since 6.18 nth_page() no longer exists, and is no longer required to iterate
+ * within a single SG entry, so we replace it with a simple addition.
+ */
+#define	nth_page(p, n)	((p)+(n))
+#endif
+
 /*
  * The goal is to minimize fragmentation by preferentially populating ABDs
  * with higher order compound pages from a single zone.  Allocation size is
@@ -1125,14 +1133,6 @@ abd_return_buf_copy(abd_t *abd, void *buf, size_t n)
 	(PageCompound(page) ? page_size(page) : PAGESIZE)
 #else
 #define	ABD_ITER_PAGE_SIZE(page)	(PAGESIZE)
-#endif
-
-#ifndef nth_page
-/*
- * Since 6.18 nth_page() no longer exists, and is no longer required to iterate
- * within a single SG entry, so we replace it with a simple addition.
- */
-#define	nth_page(p, n)	((p)+(n))
 #endif
 
 void
