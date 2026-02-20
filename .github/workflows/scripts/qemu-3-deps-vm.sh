@@ -42,6 +42,7 @@ function alpine() {
 function archlinux() {
   echo "##[group]Running pacman -Syu"
   sudo btrfs filesystem resize max /
+  sudo rm /var/lib/pacman/db.lck
   sudo pacman -Syu --noconfirm
   echo "##[endgroup]"
 
