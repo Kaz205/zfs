@@ -57,7 +57,7 @@ jobs:
             ;;
           *)
             # default list
-            os_selection='["archlinux"]'
+            os_selection='["archlinux", "fedora43"]'
             ;;
           esac
 
